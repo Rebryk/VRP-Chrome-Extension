@@ -10,9 +10,12 @@ document.arrive(".im_msg_audiomsg", {existing: true}, function() {
     var iconAndText = document.createElement("div");
     var loadingIcon = document.createElement("div");
     loadingIcon.className = "loader";
+	var text = document.createElement("span");
+	text.className = "loading_text";
+	text.appendChild(document.createTextNode("Войс обрабатывается. Подождите..."))
 
-    iconAndText.appendChild(loadingIcon);
-    iconAndText.appendChild(document.createTextNode("parsing..."));
+	iconAndText.appendChild(loadingIcon);
+    iconAndText.appendChild(text);
     this.appendChild(iconAndText);
 
 	var trackNode = this.getElementsByClassName("audio-msg-track")[0]
