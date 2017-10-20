@@ -19,6 +19,27 @@ document.arrive(".im_msg_audiomsg", {existing: true}, function() {
     this.appendChild(iconAndText);
 
 	var trackNode = this.getElementsByClassName("audio-msg-track")[0]
-	//this.appendChild(document.createTextNode(trackNode.getAttribute('data-ogg')));
+	var voiceUrl = trackNode.getAttribute('data-ogg');
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open('post', 'https://vrp.eu.ngrok.io/recognize', true);
+	xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+
+	var so = this;
+	// send the collected data as JSON
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState === 4 && xhr.status === 200) {
+			//so.appendChild(document.createTextNode(xhr.responseText));
+			loadingIcon.remove();
+			text.innerHTML = '';
+			text.appendChild(document.createTextNode(xhr.responseText));
+		}
+	};
+	
+	xhr.send('{"url": "' + voiceUrl + '"}');
+
+	//xhr.onloadend = function () {
+	//	this.appendChild(document.createTextNode(xhr.responseText));
+	//};
 });
 

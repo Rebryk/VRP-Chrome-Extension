@@ -23,5 +23,9 @@
 	// crbug.com/134315
 	"web_accessible_resources": [
 		"48.png"
+	],
+	
+	"permissions": [
+		"https://vrp.eu.ngrok.io/*"
 	]
 }
