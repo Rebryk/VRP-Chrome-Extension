@@ -26,6 +26,7 @@
 	],
 	
 	"permissions": [
+		"storage",
 		"https://vrp.eu.ngrok.io/*"
 	]
 }
