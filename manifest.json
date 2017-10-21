@@ -17,6 +17,7 @@
             "css": ["styles.css"]
         }
     ],
+	"background": { "scripts": ["background.js"] },
 
     "manifest_version": 2,
 

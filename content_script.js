@@ -1,26 +1,34 @@
 var CACHE_SIZE = 100; // maximum stored voices
 var chstorage = chrome.storage.local; // or sync
-chstorage.clear();
+//chstorage.clear();
+var query = [];
+
+chstorage.get('query', function(res) {
+    query = res.query === undefined ? [] : res.query;
+});
 
 function storeInCache(key, val) {
-    chstorage.get('query', function(res) {
-        if (res.query === undefined) res.query = [];
-        if (!(val in res.query)) res.query.push(val);
-        console.log('New query size is ' + res.query.length);
-        if (res.query.length > CACHE_SIZE) {
-            console.log('Cache is exceeded. Removing oldest element');
-            expiredKey = res.query.shift();
-            console.log('Removing ' + expiredKey);
-            chstorage.remove([expiredKey], function() {
-                var error = chrome.runtime.lastError;
-                if (error) console.error(error);
-            });
-        }
-        var obj = {};
-        obj[key] = val;
-        chstorage.set(obj);
-        chstorage.set({'query': res.query});
-    });
+    //console.log('Found query size is ' + res.query.length);
+    if (!(val in query)) query.push(val);
+    if (query.length > CACHE_SIZE) {
+        console.log('Cache is exceeded. Removing oldest element');
+        expiredKey = query.shift();
+        console.log('Removing ' + expiredKey);
+        chstorage.remove([expiredKey], function() {
+            var error = chrome.runtime.lastError;
+            if (error) console.error(error);
+        });
+    }
+    var obj = {};
+    obj[key] = val;
+    chstorage.set(obj);
+    
+    // updating query
+    obj = {};
+    obj['query'] = query;
+    chstorage.set(obj);
+    console.log('saving query with len ' + query.length);
+    console.log(obj);
 }
 
 function retrieveFromCache(key, callback) {
@@ -35,7 +43,7 @@ document.arrive(".im_msg_audiomsg", {existing: true}, function() {
     var voiceUrl = this.getElementsByClassName("audio-msg-track")[0].getAttribute('data-ogg');
     
     console.log('Message id is ' + messageId);
-    console.log('Voice url is ' + voiceUrl);
+    //console.log('Voice url is ' + voiceUrl);
 
     var iconAndText = document.createElement("div");
     var loadingIcon = document.createElement("div");
