@@ -11,8 +11,12 @@
     animation: spin 2s linear infinite;
 }
 .loading_text {
-	color: gray;
-	font-style: italic;
+    color: gray;
+    font-style: italic;
+}
+.error_text {
+    color: red;
+    font-style: italic;
 }
 
 @keyframes spin {

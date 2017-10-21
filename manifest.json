@@ -1,32 +1,32 @@
 {
-	"name": "Voice In Bulk",
-	"version": "1.1",
-	"description": "Parses VK voice messages to text",
-	"permissions": [
-		"storage",
-		"notifications"
-	],
+    "name": "Voice In Bulk",
+    "version": "1.1",
+    "description": "Parses VK voice messages to text",
+    "permissions": [
+        "storage",
+        "notifications"
+    ],
 
-	"content_scripts": [
-		{
-			"matches": ["*://vk.com/im*"],
-			"js": [
-				"arrive.min.js",
-				"content_script.js"
-			],
-			"css": ["styles.css"]
-		}
-	],
+    "content_scripts": [
+        {
+            "matches": ["*://vk.com/im*"],
+            "js": [
+                "arrive.min.js",
+                "content_script.js"
+            ],
+            "css": ["styles.css"]
+        }
+    ],
 
-	"manifest_version": 2,
+    "manifest_version": 2,
 
-	// crbug.com/134315
-	"web_accessible_resources": [
-		"48.png"
-	],
-	
-	"permissions": [
-		"storage",
-		"https://vrp.eu.ngrok.io/*"
-	]
+    // crbug.com/134315
+    "web_accessible_resources": [
+        "48.png"
+    ],
+    
+    "permissions": [
+        "storage",
+        "https://vrp.eu.ngrok.io/*"
+    ]
 }
