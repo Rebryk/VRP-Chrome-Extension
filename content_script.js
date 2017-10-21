@@ -43,7 +43,7 @@ document.arrive(".im_msg_audiomsg", {existing: true}, function() {
     var voiceUrl = this.getElementsByClassName("audio-msg-track")[0].getAttribute('data-ogg');
     
     console.log('Message id is ' + messageId);
-    //console.log('Voice url is ' + voiceUrl);
+    console.log('Voice url is ' + voiceUrl);
 
     // GUI
     var loadingIcon;
@@ -61,12 +61,12 @@ document.arrive(".im_msg_audiomsg", {existing: true}, function() {
         this.appendChild(iconAndText);
     } else {
         loadingIcon = this.getElementsByClassName("loading_icon")[0];
-        loadingIcon.style.visibility = "visible";
+        loadingIcon.removeAttribute("hidden");
         textNode = this.getElementsByClassName("loading_text")[0];
     }
     
     function showResult(resultText, isError) {
-        loadingIcon.style.visibility = "hidden";
+        loadingIcon.hidden = "hidden";
         textNode.innerHTML = '';
         textNode.appendChild(document.createTextNode(resultText));
         textNode.className = isError ? "loading_text error_text" : "loading_text";
@@ -86,6 +86,12 @@ document.arrive(".im_msg_audiomsg", {existing: true}, function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     showResult(xhr.responseText, false);
                     storeInCache(messageId, xhr.responseText);
+                    if (document.hidden) {
+                        new Notification('Распознавание голоса', {
+                            icon: '48.png',
+                            body: xhr.responseText
+                        });
+                    }
                 } else {
                     showResult('Проблемы с соединением. Попробуйте перезагрузить страницу.', true);
                 }
