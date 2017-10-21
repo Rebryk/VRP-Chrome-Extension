@@ -45,22 +45,31 @@ document.arrive(".im_msg_audiomsg", {existing: true}, function() {
     console.log('Message id is ' + messageId);
     //console.log('Voice url is ' + voiceUrl);
 
-    var iconAndText = document.createElement("div");
-    var loadingIcon = document.createElement("div");
-    loadingIcon.className = "loader";
-    var textNode = document.createElement("span");
-    textNode.className = "loading_text";
-    textNode.appendChild(document.createTextNode("Войс обрабатывается. Подождите..."));
-    console.log(messageId);
-    iconAndText.appendChild(loadingIcon);
-    iconAndText.appendChild(textNode);
-    this.appendChild(iconAndText);
+    // GUI
+    var loadingIcon;
+    var textNode;
+    if (this.getElementsByClassName("loading_text").length === 0) {
+        var iconAndText = document.createElement("div");
+        loadingIcon = document.createElement("div");
+        loadingIcon.className = "loading_icon";
+        textNode = document.createElement("span");
+        textNode.className = "loading_text";
+        textNode.appendChild(document.createTextNode("Войс обрабатывается. Подождите..."));
+        console.log(messageId);
+        iconAndText.appendChild(loadingIcon);
+        iconAndText.appendChild(textNode);
+        this.appendChild(iconAndText);
+    } else {
+        loadingIcon = this.getElementsByClassName("loading_icon")[0];
+        loadingIcon.style.visibility = "visible";
+        textNode = this.getElementsByClassName("loading_text")[0];
+    }
     
     function showResult(resultText, isError) {
-        loadingIcon.remove();
+        loadingIcon.style.visibility = "hidden";
         textNode.innerHTML = '';
         textNode.appendChild(document.createTextNode(resultText));
-        textNode.className = isError ? "error_text" : "loading_text";
+        textNode.className = isError ? "loading_text error_text" : "loading_text";
     }
     
     retrieveFromCache(messageId, function (storedMessage) {
