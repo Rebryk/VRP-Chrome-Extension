@@ -39,8 +39,9 @@ function retrieveFromCache(key, callback) {
 }
 
 document.arrive(".im_msg_audiomsg", {existing: true}, function() {
+    //this.style = "background-color: red;";
     var messageId = this.id;
-    var voiceUrl = this.getElementsByClassName("audio-msg-track")[0].getAttribute('data-ogg');
+    var voiceUrl = this.getElementsByClassName("audio-msg-track")[0].getAttribute('data-mp3');
     
     console.log('Message id is ' + messageId);
     console.log('Voice url is ' + voiceUrl);
@@ -93,7 +94,8 @@ document.arrive(".im_msg_audiomsg", {existing: true}, function() {
                         });
                     }
                 } else {
-                    showResult('Проблемы с соединением. Попробуйте перезагрузить страницу.', true);
+                    var errorDesc = xhr.status === 400 || xhr.status === 503 ? xhr.responseText : 'сервер недоступен';
+                    showResult('Ошибка на сервере (' + errorDesc + '). Попробуйте перезагрузить страницу.', true);
                 }
             };
             xhr.send('{"url": "' + voiceUrl + '"}');
